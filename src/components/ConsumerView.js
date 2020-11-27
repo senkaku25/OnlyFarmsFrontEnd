@@ -25,7 +25,9 @@ class ConsumerView extends Component {
         var myHeaders = new Headers();
         console.log("getting store inventory...");
         myHeaders.append("Content-Type", "application/json");
-        var raw = JSON.stringify({"storeId":"1"});
+        var raw = JSON.stringify({
+            "storeId": "1"
+        });
         var requestOptions = {
             method: 'POST',
             headers: myHeaders,
@@ -34,7 +36,7 @@ class ConsumerView extends Component {
         };
 
         // make API call with parameters and use promises to get response
-        fetch("https://92lspe5vz7.execute-api.us-east-1.amazonaws.com/dev", requestOptions)
+        fetch("https://92lspe5vz7.execute-api.us-east-1.amazonaws.com/dev/inventory", requestOptions)
             .then(response => response.text())
             .then(result => {
                 // console.log(JSON.parse(result).body);
