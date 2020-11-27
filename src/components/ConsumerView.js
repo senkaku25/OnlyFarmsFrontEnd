@@ -37,10 +37,10 @@ class ConsumerView extends Component {
         };
 
         // make API call with parameters and use promises to get response
-        fetch("https://7ybj2whv04.execute-api.us-east-1.amazonaws.com/dev/inventory", requestOptions)
+        fetch("https://7ybj2whv04.execute-api.us-east-1.amazonaws.com/dev", requestOptions)
             .then(response => response.text())
             .then(result => {
-                // console.log(JSON.parse(result).body);
+                console.log(JSON.parse(result).body);
                 this.state.listing = JSON.parse(result).body;
             })
             .catch(error => console.log('error', error));
