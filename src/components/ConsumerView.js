@@ -40,44 +40,45 @@ class ConsumerView extends Component {
         fetch("https://7ybj2whv04.execute-api.us-east-1.amazonaws.com/dev", requestOptions)
             .then(response => response.text())
             .then(result => {
+                console.log("stuff: ")
                 console.log(JSON.parse(result).body);
-                this.state.listing = JSON.parse(result).body;
+                this.state.listing = JSON.parse(result).body
             })
             .catch(error => console.log('error', error));
         console.log(this.state);
         this.state.cart = [];
-        // this.state = {
-        //     listings: [
-        //         {
-        //           "inventoryId (S)": 1,
-        //           "amount (N)": 100,
-        //           "price (N)": 5,
-        //           "priceUnit (S)": "per 5",
-        //           "productDesc (S)": "Large sweet apples grown in BC.",
-        //           "productName (S)": "Ambrosia Apples",
-        //           "storeId (S)": 1
-        //         },
-        //         {
-        //           "inventoryId (S)": 2,
-        //           "amount (N)": 3,
-        //           "price (N)": 2.99,
-        //           "priceUnit (S)": "per 2 pounds",
-        //           "productDesc (S)": "Thin sugary sweet potatoes used in Korean cuisine",
-        //           "productName (S)": "Purple Sweet Potatoes",
-        //           "storeId (S)": 1
-        //         },
-        //         {
-        //           "inventoryId (S)": 3,
-        //           "amount (N)": 30,
-        //           "price (N)": 8.99,
-        //           "priceUnit (S)": "per 5 pounds",
-        //           "productDesc (S)": "Home grown apples that are very sour and satisfying.",
-        //           "productName (S)": "Organic Granny Smith Apples",
-        //           "storeId (S)": 1
-        //         }
-        //        ],
-        //     cart: []
-        // };
+        this.state = {
+            listings: [
+                {
+                  "inventoryId (S)": 1,
+                  "amount (N)": 100,
+                  "price (N)": 5,
+                  "priceUnit (S)": "per 5",
+                  "productDesc (S)": "Large sweet apples grown in BC.",
+                  "productName (S)": "Ambrosia Apples",
+                  "storeId (S)": 1
+                },
+                {
+                  "inventoryId (S)": 2,
+                  "amount (N)": 3,
+                  "price (N)": 2.99,
+                  "priceUnit (S)": "per 2 pounds",
+                  "productDesc (S)": "Thin sugary sweet potatoes used in Korean cuisine",
+                  "productName (S)": "Purple Sweet Potatoes",
+                  "storeId (S)": 1
+                },
+                {
+                  "inventoryId (S)": 3,
+                  "amount (N)": 30,
+                  "price (N)": 8.99,
+                  "priceUnit (S)": "per 5 pounds",
+                  "productDesc (S)": "Home grown apples that are very sour and satisfying.",
+                  "productName (S)": "Organic Granny Smith Apples",
+                  "storeId (S)": 1
+                }
+               ],
+            cart: []
+        };
     }
 
     addToCart(inventoryId, productName) {
