@@ -1,88 +1,90 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
 import ListingTable from './ListingTable';
-import { HOST, STOCK_ENDPOINT } from '../constants/url';
+import { INVENTORY_MS, CART_MS } from '../constants/url';
 
 class ConsumerView extends Component {
     constructor() {
         super();
-        const proxyurl = "https://cors-anywhere.herokuapp.com/";
-        let fetched_quantities = fetch(proxyurl + HOST + STOCK_ENDPOINT)
-            .then(response => response.json())
-            .then(data => console.log(data))
-            .catch(
-                e => {
-                    console.log(e);
-                    return e;
-                }
-            );
-        console.log(fetched_quantities);
-
-        this.state = {
+        this.state={
             listings: [],
-            cart: []
+            cart:[]
         }
-        
+        this.state = {
+            listings: [
+                {
+                  "inventoryId": 1,
+                  "amount": 0,
+                  "price": 0,
+                  "priceUnit": "Loading...",
+                  "productDesc": "Loading...",
+                  "productName": "Loading...",
+                  "storeId": 1
+                }],
+            cart: []
+        };
+    }
+
+    updateCart(inventoryId, amount, userId, orderId) {
+        // {
+        //     "amount": "6", //needs to be less than the number of it in the inventory
+        //     "inventoryId": "1", //needs to be a stockId
+        //     "orderId": "5", //put as anything
+        //     "userId": "1" 
+        // }
+        console.log("Moving item from inventory to cart");
         var myHeaders = new Headers();
-        console.log("getting store inventory...");
         myHeaders.append("Content-Type", "application/json");
         var raw = JSON.stringify({
-            "storeId": "1"
+            "inventoryId": inventoryId,
+            "orderId": orderId,
+            "userId": userId,
+            "amount": amount
         });
+
         var requestOptions = {
             method: 'POST',
             headers: myHeaders,
             body: raw,
             redirect: 'follow'
         };
-
         // make API call with parameters and use promises to get response
-        fetch("https://7ybj2whv04.execute-api.us-east-1.amazonaws.com/dev", requestOptions)
+        fetch(CART_MS + "/additem", requestOptions)
             .then(response => response.text())
             .then(result => {
-                console.log("stuff: ")
-                console.log(JSON.parse(result).body);
-                this.state.listing = JSON.parse(result).body
+                console.log(JSON.parse(result));
             })
             .catch(error => console.log('error', error));
-        console.log(this.state);
-        this.state.cart = [];
-        this.state = {
-            listings: [
-                {
-                  "inventoryId (S)": 1,
-                  "amount (N)": 100,
-                  "price (N)": 5,
-                  "priceUnit (S)": "per 5",
-                  "productDesc (S)": "Large sweet apples grown in BC.",
-                  "productName (S)": "Ambrosia Apples",
-                  "storeId (S)": 1
-                },
-                {
-                  "inventoryId (S)": 2,
-                  "amount (N)": 3,
-                  "price (N)": 2.99,
-                  "priceUnit (S)": "per 2 pounds",
-                  "productDesc (S)": "Thin sugary sweet potatoes used in Korean cuisine",
-                  "productName (S)": "Purple Sweet Potatoes",
-                  "storeId (S)": 1
-                },
-                {
-                  "inventoryId (S)": 3,
-                  "amount (N)": 30,
-                  "price (N)": 8.99,
-                  "priceUnit (S)": "per 5 pounds",
-                  "productDesc (S)": "Home grown apples that are very sour and satisfying.",
-                  "productName (S)": "Organic Granny Smith Apples",
-                  "storeId (S)": 1
-                }
-               ],
-            cart: []
+    }
+
+    getUsersCart(userId) {
+        console.log("Getting users carts");
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        var raw = JSON.stringify({
+            "userId": userId.toString()
+        });
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
         };
+        // make API call with parameters and use promises to get response
+        fetch(CART_MS + "/allcart", requestOptions)
+            .then(response => response.text())
+            .then(result => {
+                var l = JSON.parse(result); //show all user's cart
+                console.log(l);
+            })
+            .catch(error => console.log('error', error));
     }
 
     addToCart(inventoryId, productName) {
         var newCart = this.state.cart;
+        // console.log("test add item from inventory");
+        // this.updateCart(inventoryId, 3, 1, 1); //change amount. check if its already in cart
         for (let i=0; i < newCart.length; i++) {
             if (newCart[i].inventoryId === inventoryId) {
                 newCart[i].quantity += 1;
@@ -110,6 +112,30 @@ class ConsumerView extends Component {
                 })
             }
         }
+    }
+
+    componentDidMount() {
+        // this.getUsersCart(1);
+        console.log("getting store inventory...");
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        var raw = JSON.stringify({
+            "storeId": "1"
+        });
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+        // make API call with parameters and use promises to get response
+        fetch(INVENTORY_MS + "/inventory", requestOptions)
+            .then(response => response.text())
+            .then(result => {
+                var l = JSON.parse(result)[0]
+                this.setState({listings: l});
+            })
+            .catch(error => console.log('error', error));
     }
 
     render() {
