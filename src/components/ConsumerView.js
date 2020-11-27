@@ -18,24 +18,24 @@ class ConsumerView extends Component {
             );
         console.log(fetched_quantities);
         
-        var myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json");
-        var raw = JSON.stringify({"storeId":1});
-        var requestOptions = {
-            method: 'POST',
-            headers: myHeaders,
-            body: raw,
-            redirect: 'follow'
-        };
-        // make API call with parameters and use promises to get response
-        fetch("https://92lspe5vz7.execute-api.us-east-1.amazonaws.com/dev", requestOptions)
-            .then(response => response.text())
-            .then(result => {
-                this.state.listing = JSON.parse(result).body;
-            })
-            .catch(error => console.log('error', error));
-        console.log(this.state);
-        this.state.cart = []
+        // var myHeaders = new Headers();
+        // myHeaders.append("Content-Type", "application/json");
+        // var raw = JSON.stringify({"storeId":1});
+        // var requestOptions = {
+        //     method: 'POST',
+        //     headers: myHeaders,
+        //     body: raw,
+        //     redirect: 'follow'
+        // };
+        // // make API call with parameters and use promises to get response
+        // fetch("https://92lspe5vz7.execute-api.us-east-1.amazonaws.com/dev", requestOptions)
+        //     .then(response => response.text())
+        //     .then(result => {
+        //         this.state.listing = JSON.parse(result).body;
+        //     })
+        //     .catch(error => console.log('error', error));
+        // console.log(this.state);
+        // this.state.cart = [];
         this.state = {
             listings: [
                 {
