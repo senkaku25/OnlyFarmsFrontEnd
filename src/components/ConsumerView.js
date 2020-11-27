@@ -22,6 +22,7 @@ class ConsumerView extends Component {
             listings: [],
             cart: []
         }
+        
         var myHeaders = new Headers();
         console.log("getting store inventory...");
         myHeaders.append("Content-Type", "application/json");
@@ -36,7 +37,7 @@ class ConsumerView extends Component {
         };
 
         // make API call with parameters and use promises to get response
-        fetch("https://92lspe5vz7.execute-api.us-east-1.amazonaws.com/dev/inventory", requestOptions)
+        fetch("https://7ybj2whv04.execute-api.us-east-1.amazonaws.com/dev/inventory", requestOptions)
             .then(response => response.text())
             .then(result => {
                 // console.log(JSON.parse(result).body);
