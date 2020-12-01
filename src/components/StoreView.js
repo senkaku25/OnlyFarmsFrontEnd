@@ -41,8 +41,7 @@ class StoreView extends Component {
         var newListings = []
         for (i = 0; i < this.state.listings.length; i++) {
             var listing = JSON.parse(JSON.stringify(this.state.listings[i]));
-
-            if (listing.stockItemId === stockItemId) {
+            if (listing.inventoryId === stockItemId) {
                 listing.amount = newQuantity;
             }
             newListings.push(listing);
@@ -53,12 +52,6 @@ class StoreView extends Component {
     }
 
     updateInventoryItem(listing) {
-        // "inventoryId":
-        // "amount": 
-        // "price": 
-        // "priceUnit": 
-        // "productDesc": 
-        // "productName":
         console.log(listing);
         console.log("updating...");
         var myHeaders = new Headers();
@@ -98,8 +91,6 @@ class StoreView extends Component {
     }
 
     onCancel() {
-        console.log("listings: " + this.state.listings);
-        console.log("oldlistings: " + this.state.oldListings);
         this.setState({
             isEditMode: false,
             listings: this.state.oldListings
@@ -107,7 +98,6 @@ class StoreView extends Component {
     }
 
     render() {
-        console.log("render")
         return (
             <div>
                 <h1>This is your Store Page!</h1>
