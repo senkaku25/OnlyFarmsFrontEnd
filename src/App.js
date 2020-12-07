@@ -1,7 +1,8 @@
 import "./App.css";
 import React, { Component } from "react";
-import { Route, HashRouter } from "react-router-dom";
+import { Route, HashRouter} from "react-router-dom";
 import Header from "./components/Header";
+import WelcomeView from './components/WelcomeView';
 import DirectoryView from './components/DirectoryView';
 import ConsumerView from "./components/ConsumerView";
 import StoreView from "./components/StoreView";
@@ -52,6 +53,7 @@ class App extends Component {
 			setLoginStatus: this.setLoginStatus,
 			setUser: this.setUser,
 		};
+
 		return (
 			!this.state.isLoggingIn && (
 				<div className="App">
@@ -60,8 +62,13 @@ class App extends Component {
 							<Header auth={loginProps} />
 							<Route
 								exact
-								path="/"
+								path="/dir"
 								render={(props) => <DirectoryView {...props} auth={loginProps} />}
+							/>
+							<Route
+								exact
+								path="/"
+								render={(props) => <WelcomeView {...props} auth={loginProps} />}
 							/>
 							<Route
 								path="/consumer"
